@@ -3,4 +3,6 @@ out/
 .idea/usage.statistics.xml
 .idea/tasks.xml
 .idea/shelf
-.scalafmt.conf
+.scalafmt.conftarget
+project
+.bsp
