@@ -31,8 +31,9 @@ object LabDelivery extends App :
     @tailrec
     def drop[A](l: List[A], n: Int): List[A] = (l, n) match
       case (l, 0) => l
-      case (Nil(), _) => Nil()
       case (Cons(_, t), n) => drop(t, n - 1)
+      case _ => Nil()
+
 
     def append[A](l1: List[A], l2: List[A]): List[A] = l1 match
       case Nil() => l2
@@ -137,8 +138,8 @@ object LabDelivery extends App :
     @tailrec
     def drop[A](stream: Stream[A])(n: Int): Stream[A] = (stream, n) match
       case (s, 0) => s
-      case (Empty(), _) => Empty()
       case (Cons(_, tail), n) => drop(tail())(n - 1)
+      case _ => Empty()
     /*
      * TASK 3.6
      */
