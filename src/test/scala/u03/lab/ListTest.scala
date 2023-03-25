@@ -5,15 +5,12 @@ import org.junit.Assert.*
 import u03.lab.LabDelivery.*
 import List.*
 
-class ListTest:
-  import Person.*
+object Definitions:
   val l: List[Int] = Cons(10, Cons(20, Cons(30, Nil())))
-  val persons: List[Person] = Cons(Student("Kelvin", 2000),
-    Cons(Teacher("Viroli", "PPS"),
-    Cons(Student("Mario", 2002),
-    Cons(Teacher("Ricci", "PCD"), Nil())
-  )))
 
+import Definitions.*
+
+class ListTest:
   @Test def testSum(): Unit =
     assertEquals(0, sum(Nil()))
     assertEquals(60, sum(l))
@@ -26,6 +23,7 @@ class ListTest:
     assertEquals(Cons(20, Cons(30, Nil())), filter(l)(_>=20))
     assertEquals(Cons(10, Cons(30, Nil())), filter(l)(_!=20))
 
+class TestTask1:
   @Test def testDrop(): Unit =
     assertEquals(Cons (20 , Cons (30 , Nil ())), drop(l, 1))
     assertEquals(Cons (30 , Nil ()), drop(l, 2))
@@ -52,9 +50,17 @@ class ListTest:
     assertEquals(Some(25), max(Cons(10, Cons(25, Cons(20, Nil())))))
     assertEquals(None(), max(Nil()))
 
+class TestPearson:
+  import Person.*
+  val persons: List[Person] = Cons(Student("Kelvin", 2000),
+    Cons(Teacher("Viroli", "PPS"),
+      Cons(Student("Mario", 2002),
+        Cons(Teacher("Ricci", "PCD"), Nil())
+      )))
   @Test def testGetCourses(): Unit =
     assertEquals(Cons("PPS", Cons("PCD", Nil())), getCourses(persons))
 
+class TestTask2:
   @Test def testReverse(): Unit =
     val lst = Cons(1, Cons(2, Cons(3, Cons(4, Nil()))))
     assertEquals(Cons(4, Cons(3, Cons(2, Cons(1, Nil())))), reverse(lst))
