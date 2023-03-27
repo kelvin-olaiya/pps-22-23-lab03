@@ -29,11 +29,9 @@ object LabDelivery extends App :
      * TASK 1.1
      */
     @tailrec
-    def drop[A](l: List[A], n: Int): List[A] = (l, n) match
-      case (l, 0) => l
-      case (Cons(_, t), n) => drop(t, n - 1)
-      case _ => Nil()
-
+    def drop[A](l: List[A], n: Int): List[A] = l match
+      case Cons(_, t) if n > 0 => drop(t, n - 1)
+      case l => l
 
     def append[A](l1: List[A], l2: List[A]): List[A] = l1 match
       case Nil() => l2
@@ -71,9 +69,7 @@ object LabDelivery extends App :
       case Nil() => d
       case Cons(h, t) => acc(h, foldRight(t)(d)(acc))
 
-    def reverse[A](l: List[A]): List[A] = l match
-      case Nil() => Nil()
-      case Cons(h, t) => append(reverse(t), Cons(h, Nil()))
+    def reverse[A](l: List[A]): List[A] = foldLeft(l)(Nil())((a, b) => Cons(b, a))
 
     def foldRight2[A](l: List[A])(d: A)(acc: (A, A) => A): A = foldLeft(reverse(l))(d)((x, y) => acc(y, x))
   /*
@@ -126,8 +122,8 @@ object LabDelivery extends App :
       case Cons(_, tail) => filter(tail())(pred)
       case _ => Empty()
 
-    def take[A](stream: Stream[A])(n: Int): Stream[A] = (stream, n) match
-      case (Cons(head, tail), n) if n > 0 => cons(head(), take(tail())(n - 1))
+    def take[A](stream: Stream[A])(n: Int): Stream[A] = stream match
+      case Cons(head, tail) if n > 0 => cons(head(), take(tail())(n - 1))
       case _ => Empty()
 
     def iterate[A](init: => A)(next: A => A): Stream[A] =
@@ -136,10 +132,9 @@ object LabDelivery extends App :
      * TASK 3.5
      */
     @tailrec
-    def drop[A](stream: Stream[A])(n: Int): Stream[A] = (stream, n) match
-      case (s, 0) => s
-      case (Cons(_, tail), n) => drop(tail())(n - 1)
-      case _ => Empty()
+    def drop[A](stream: Stream[A])(n: Int): Stream[A] = stream match
+      case Cons(_, tail) if n > 0 => drop(tail())(n - 1)
+      case s => s
     /*
      * TASK 3.6
      */
@@ -147,6 +142,8 @@ object LabDelivery extends App :
     /*
      * TASK 3.7
      */
+    def fibonacci: Stream[Int] = cons(0, map(iterate((0, 1))((a, b) => (b, a + b)))((_, b) => b))
+
     def append[A](stream1: Stream[A], stream2: Stream[A]): Stream[A] = stream1 match
       case Cons(h, t) => cons(h(), append(t(), stream2))
       case _ => stream2

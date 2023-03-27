@@ -28,7 +28,7 @@ class TestTask1:
     assertEquals(Cons (20 , Cons (30 , Nil ())), drop(l, 1))
     assertEquals(Cons (30 , Nil ()), drop(l, 2))
     assertEquals(Nil(), drop(l, 5))
-    assertEquals(Nil(), drop(l, -1))
+    assertEquals(l, drop(l, -1))
 
   @Test def testAppend(): Unit =
     val tail = Cons(40, Nil())
@@ -77,7 +77,7 @@ class StreamsTest:
   val s = take(iterate(0)(_ + 1))(10)
   @Test def testDrop(): Unit =
     assertEquals(Cons(6, Cons(7, Cons(8, Cons(9, Nil())))), toList(drop(s)(6)))
-    assertEquals(Nil(), toList(drop(s)(-1)))
+    assertEquals(toList(s), toList(drop(s)(-1)))
 
   @Test def testConstant(): Unit =
     assertEquals(Cons("x", Cons("x", Cons("x", Cons("x", Cons("x", Nil()))))),  toList(take(constant("x"))(5)))
@@ -97,5 +97,5 @@ class StreamsTest:
 
   @Test def testFibonacci(): Unit =
     assertEquals(
-      Cons(1, Cons(1, Cons(2, Cons(3, Cons(5, Cons(8, Cons(13, Cons(21, Nil())))))))),
-      toList(flatMap(take(iterate((0, 1))((a, b) => (b, a + b)))(8))((_, b) => cons(b, empty()))))
+      Cons(0, Cons(1, Cons(1, Cons(2, Cons(3, Cons(5, Cons(8, Cons(13, Nil())))))))),
+      toList(take(fibonacci)(8)))
