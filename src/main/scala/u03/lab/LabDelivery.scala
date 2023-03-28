@@ -142,7 +142,7 @@ object LabDelivery extends App :
     /*
      * TASK 3.7
      */
-    def fibonacci: Stream[Int] = cons(0, map(iterate((0, 1))((a, b) => (b, a + b)))((_, b) => b))
+    def fibonacci: Stream[Int] = map(iterate((0, 1))((a, b) => (b, a + b)))((a, _) => a)
 
     def append[A](stream1: Stream[A], stream2: Stream[A]): Stream[A] = stream1 match
       case Cons(h, t) => cons(h(), append(t(), stream2))
